@@ -24,6 +24,10 @@ public class Map {
 		map = new Tile[size][size];
 	}
 	
+	public boolean isComplete() {
+		return connected==total;
+	}
+	
 	public boolean isConnected(int i, int j) {
 		Tile tile = map[i][j];
 		for(Dir d : Dir.values()) {

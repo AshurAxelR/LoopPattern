@@ -2,23 +2,27 @@ package com.xrbpowered.looppattern.ui;
 
 import static com.xrbpowered.looppattern.LoopPattern.map;
 
-import java.awt.Color;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.SwingUtilities;
 
+import com.xrbpowered.looppattern.LoopPattern;
+import com.xrbpowered.looppattern.game.Map;
 import com.xrbpowered.zoomui.UIContainer;
 
 public class ControlLayer extends UIContainer {
 
 	public BoxLabel percentText; 
-	public BoxLabel clockText; 
+	public BoxLabel clockText;
+	public BoxLabel completeText;
+	
+	public ClickButton completeButton;
 	
 	public ControlLayer(UIContainer parent) {
 		super(parent);
-		percentText = new BoxLabel(this, null, ClickButton.darkColor, Color.WHITE) {
+		percentText = new BoxLabel(this, null, BoxStyle.button) {
 			@Override
 			public String getLabel() {
 				int con = map.connected;
@@ -32,7 +36,7 @@ public class ControlLayer extends UIContainer {
 		percentText.paddingX = 16;
 
 		final DateFormat fmt = new SimpleDateFormat("HH:mm");
-		clockText = new BoxLabel(this, null, MapView.bgColor, ClickButton.darkColor) {
+		clockText = new BoxLabel(this, null, BoxStyle.borderText) {
 			@Override
 			public String getLabel() {
 				return fmt.format(new Date());
@@ -40,6 +44,20 @@ public class ControlLayer extends UIContainer {
 		};
 		clockText.setSize(128, 64);
 		clockText.paddingX = 16;
+
+		completeText = new BoxLabel(this, "PATTERN COMPLETE", BoxStyle.redButton);
+		completeText.setSize(512, 64);
+		completeText.paddingX = 16;
+
+		completeButton = new ClickButton(this, "NEXT PATTERN") {
+			@Override
+			public void onAction() {
+				LoopPattern.map = new Map(32).generate();
+				LoopPattern.updateUI();
+			}
+		};
+		completeButton.setSize(512, 64);
+		completeButton.paddingX = 16;
 		
 		new Thread() {
 			public void run() {
@@ -63,7 +81,9 @@ public class ControlLayer extends UIContainer {
 	@Override
 	public void layout() {
 		percentText.setLocation(0, getHeight()-percentText.getHeight());
-		clockText.setLocation(getWidth()-clockText.getWidth(), getHeight()-clockText.getHeight());
+		clockText.setLocation(getWidth()-clockText.getWidth(), percentText.getY());
+		completeText.setLocation(getWidth()/2-completeText.getWidth()/2, 0);
+		completeButton.setLocation(completeText.getX(), percentText.getY());
 		super.layout();
 	}
 

@@ -3,6 +3,7 @@ package com.xrbpowered.looppattern;
 import java.awt.event.KeyEvent;
 
 import com.xrbpowered.looppattern.game.Map;
+import com.xrbpowered.looppattern.ui.BoxStyle;
 import com.xrbpowered.looppattern.ui.ControlLayer;
 import com.xrbpowered.looppattern.ui.Fonts;
 import com.xrbpowered.looppattern.ui.MapView;
@@ -30,10 +31,6 @@ public class LoopPattern extends UILayersContainer implements KeyInputHandler {
 		Fonts.createFonts();
 	}
 
-	public static void newMap() {
-		map = new Map(32).generate();
-	}
-
 	@Override
 	public boolean onKeyPressed(char c, int code, int mods) {
 		switch(code) {
@@ -56,6 +53,14 @@ public class LoopPattern extends UILayersContainer implements KeyInputHandler {
 	public void onFocusLost() {
 	}
 
+	public static void updateUI() {
+		boolean done = map.isComplete();
+		controls.completeText.setVisible(done);
+		controls.completeButton.setVisible(done);
+		controls.percentText.style = done ? BoxStyle.redButton : BoxStyle.button;
+		mapView.repaint();
+	}
+	
 	public static void main(String[] args) {
 		SwingFrame frame = new SwingFrame(SwingWindowFactory.use(1), null, 1024, 600, false, true) {
 			@Override
@@ -66,6 +71,7 @@ public class LoopPattern extends UILayersContainer implements KeyInputHandler {
 		};
 		frame.maximize();
 		new LoopPattern(frame.getContainer());
+		updateUI();
 		frame.show();
 	}
 

@@ -2,7 +2,6 @@ package com.xrbpowered.looppattern.ui;
 
 import static com.xrbpowered.looppattern.LoopPattern.map;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import com.xrbpowered.looppattern.LoopPattern;
@@ -14,13 +13,11 @@ import com.xrbpowered.zoomui.base.UIPanView;
 
 public class MapView extends UIElement {
 
-	public static final Color bgColor = new Color(0xeef5dd);
-
 	public MapView(UIContainer parent) {
 		super(new UIPanView(parent) {
 			@Override
 			protected void paintSelf(GraphAssist g) {
-				g.fill(this, bgColor);
+				g.fill(this, BoxStyle.bgColor);
 			}
 			@Override
 			public void layout() {
@@ -50,11 +47,13 @@ public class MapView extends UIElement {
 	@Override
 	public boolean onMouseDown(float x, float y, Button button, int mods) {
 		if(button==Button.left) {
-			int i = (int)(x/TileImage.size);
-			int j = (int)(y/TileImage.size);
-			map.map[i][j].cw();
-			map.countConnected();
-			repaint();
+			if(!map.isComplete()) {
+				int i = (int)(x/TileImage.size);
+				int j = (int)(y/TileImage.size);
+				map.map[i][j].cw();
+				map.countConnected();
+				LoopPattern.updateUI();
+			}
 			return true;
 		}
 		else
