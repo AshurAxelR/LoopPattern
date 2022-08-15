@@ -1,0 +1,69 @@
+package com.xrbpowered.looppattern.ui;
+
+import static com.xrbpowered.looppattern.LoopPattern.map;
+
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+
+import com.xrbpowered.looppattern.LoopPattern;
+import com.xrbpowered.looppattern.game.Tile;
+import com.xrbpowered.zoomui.GraphAssist;
+import com.xrbpowered.zoomui.UIContainer;
+import com.xrbpowered.zoomui.UIElement;
+import com.xrbpowered.zoomui.base.UIPanView;
+
+public class MapView extends UIElement {
+
+	public static final Color bgColor = new Color(0xeef5dd);
+
+	public MapView(UIContainer parent) {
+		super(new UIPanView(parent) {
+			@Override
+			protected void paintSelf(GraphAssist g) {
+				g.fill(this, bgColor);
+			}
+			@Override
+			public void layout() {
+				LoopPattern.mapView.center();
+				super.layout();
+			}
+		});
+		setSize(map.size*TileImage.size, map.size*TileImage.size);
+		
+		TileImage.createImages();
+	}
+	
+	private void paintMap(GraphAssist g)  {
+		for(int i=0; i<map.size; i++)
+			for(int j=0; j<map.size; j++) {
+				Tile tile = map.map[i][j];
+				BufferedImage[] images = tile.connected ? TileImage.imagesCon : TileImage.imagesDiscon;
+				g.graph.drawImage(images[tile.mask], TileImage.size*i, TileImage.size*j, null);
+			}
+	}
+	
+	@Override
+	public void paint(GraphAssist g) {
+		paintMap(g);
+	}
+
+	@Override
+	public boolean onMouseDown(float x, float y, Button button, int mods) {
+		if(button==Button.left) {
+			int i = (int)(x/TileImage.size);
+			int j = (int)(y/TileImage.size);
+			map.map[i][j].cw();
+			map.countConnected();
+			repaint();
+			return true;
+		}
+		else
+			return super.onMouseDown(x, y, button, mods);
+	}
+
+	public void center() {
+		UIPanView root = (UIPanView) getParent();
+		root.setPan(-root.getWidth()/2+getWidth()/2, -root.getHeight()/2+getHeight()/2);
+	}
+
+}
