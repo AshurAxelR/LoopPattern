@@ -7,24 +7,23 @@ import com.xrbpowered.zoomui.base.UIButtonBase;
 public class ClickButton extends UIButtonBase {
 
 	public String label;
-	public BoxStyle style, hoverStyle;
+	public ButtonStyle style;
 	public int paddingX = 0;
 	
-	public ClickButton(UIContainer parent, String label, BoxStyle style, BoxStyle hoverStyle) {
+	public ClickButton(UIContainer parent, String label, ButtonStyle style) {
 		super(parent);
 		this.label = label;
 		this.style = style;
-		this.hoverStyle = hoverStyle;
 	}
 
 	public ClickButton(UIContainer parent, String label) {
-		this(parent, label, BoxStyle.button, BoxStyle.buttonHover);
+		this(parent, label, ButtonStyle.button);
 	}
 
 
 	@Override
 	public void paint(GraphAssist g) {
-		BoxLabel.paintBoxLabel(g, this, paddingX, label, Fonts.font, hover ? hoverStyle : style);
+		BoxLabel.paintBoxLabel(g, this, paddingX, label, Fonts.font, style.get(hover));
 	}
 
 

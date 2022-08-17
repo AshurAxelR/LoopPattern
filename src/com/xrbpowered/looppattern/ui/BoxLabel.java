@@ -39,8 +39,8 @@ public class BoxLabel extends UIElement {
 		if(style.borderColor!=null) {
 			g.setColor(style.borderColor);
 			g.setStroke(4f);
-			g.graph.drawRoundRect(paddingX, (int)e.getHeight()/2-boxHeight/2,
-					(int)e.getWidth()-paddingX*2, boxHeight, boxHeight, boxHeight);
+			g.graph.drawRoundRect(paddingX-1, (int)e.getHeight()/2-boxHeight/2-1,
+					(int)e.getWidth()-paddingX*2+1, boxHeight+1, boxHeight, boxHeight);
 		}
 		if(style.boxColor!=null) {
 			g.setColor(style.boxColor);

@@ -3,10 +3,12 @@ package com.xrbpowered.looppattern;
 import java.awt.event.KeyEvent;
 
 import com.xrbpowered.looppattern.game.Map;
-import com.xrbpowered.looppattern.ui.BoxStyle;
+import com.xrbpowered.looppattern.ui.ButtonStyle;
 import com.xrbpowered.looppattern.ui.ControlLayer;
 import com.xrbpowered.looppattern.ui.Fonts;
+import com.xrbpowered.looppattern.ui.MainMenu;
 import com.xrbpowered.looppattern.ui.MapView;
+import com.xrbpowered.looppattern.ui.MenuOverlay;
 import com.xrbpowered.zoomui.KeyInputHandler;
 import com.xrbpowered.zoomui.UIContainer;
 import com.xrbpowered.zoomui.base.UILayersContainer;
@@ -19,8 +21,10 @@ public class LoopPattern extends UILayersContainer implements KeyInputHandler {
 	
 	public static Map map = Map.load(savePath);
 	
+	public static LoopPattern root;
 	public static MapView mapView;
 	public static ControlLayer controls;
+	public static MenuOverlay menu = null;
 	
 	public LoopPattern(UIContainer parent) {
 		super(parent);
@@ -35,7 +39,10 @@ public class LoopPattern extends UILayersContainer implements KeyInputHandler {
 	public boolean onKeyPressed(char c, int code, int mods) {
 		switch(code) {
 			case KeyEvent.VK_ESCAPE:
-				getBase().getWindow().close();
+				if(menu!=null)
+					menu.dismiss();
+				else
+					getBase().getWindow().requestClosing();
 				break;
 			case KeyEvent.VK_HOME:
 				mapView.center();
@@ -57,12 +64,18 @@ public class LoopPattern extends UILayersContainer implements KeyInputHandler {
 		boolean done = map.isComplete();
 		controls.completeText.setVisible(done);
 		controls.completeButton.setVisible(done);
-		controls.percentText.style = done ? BoxStyle.redButton : BoxStyle.button;
+		controls.percentText.style = done ? ButtonStyle.redButton.normal : ButtonStyle.button.normal;
 		mapView.repaint();
 	}
 	
 	public static void main(String[] args) {
 		SwingFrame frame = new SwingFrame(SwingWindowFactory.use(1), null, 1024, 600, false, true) {
+			@Override
+			public boolean onClosing() {
+				new MainMenu();
+				repaint();
+				return false;
+			}
 			@Override
 			public void onClose() {
 				map.save(savePath);
@@ -70,7 +83,7 @@ public class LoopPattern extends UILayersContainer implements KeyInputHandler {
 			}
 		};
 		frame.maximize();
-		new LoopPattern(frame.getContainer());
+		root = new LoopPattern(frame.getContainer());
 		updateUI();
 		frame.show();
 	}

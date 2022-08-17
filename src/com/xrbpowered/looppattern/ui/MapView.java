@@ -13,6 +13,8 @@ import com.xrbpowered.zoomui.base.UIPanView;
 
 public class MapView extends UIElement {
 
+	private static boolean firstLayout = true;
+	
 	public MapView(UIContainer parent) {
 		super(new UIPanView(parent) {
 			@Override
@@ -21,7 +23,9 @@ public class MapView extends UIElement {
 			}
 			@Override
 			public void layout() {
-				LoopPattern.mapView.center();
+				if(firstLayout)
+					LoopPattern.mapView.center();
+				firstLayout = false;
 				super.layout();
 			}
 		});

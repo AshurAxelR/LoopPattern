@@ -22,7 +22,7 @@ public class ControlLayer extends UIContainer {
 	
 	public ControlLayer(UIContainer parent) {
 		super(parent);
-		percentText = new BoxLabel(this, null, BoxStyle.button) {
+		percentText = new BoxLabel(this, null, ButtonStyle.button.normal) {
 			@Override
 			public String getLabel() {
 				int con = map.connected;
@@ -45,8 +45,8 @@ public class ControlLayer extends UIContainer {
 		clockText.setSize(128, 64);
 		clockText.paddingX = 16;
 
-		completeText = new BoxLabel(this, "PATTERN COMPLETE", BoxStyle.redButton);
-		completeText.setSize(512, 64);
+		completeText = new BoxLabel(this, "PATTERN COMPLETE", ButtonStyle.redButton.normal);
+		completeText.setSize(MenuOverlay.buttonWidth, 64);
 		completeText.paddingX = 16;
 
 		completeButton = new ClickButton(this, "NEXT PATTERN") {
@@ -56,7 +56,7 @@ public class ControlLayer extends UIContainer {
 				LoopPattern.updateUI();
 			}
 		};
-		completeButton.setSize(512, 64);
+		completeButton.setSize(MenuOverlay.buttonWidth, 64);
 		completeButton.paddingX = 16;
 		
 		new Thread() {
