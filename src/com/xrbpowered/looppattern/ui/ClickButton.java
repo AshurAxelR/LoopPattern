@@ -1,5 +1,7 @@
 package com.xrbpowered.looppattern.ui;
 
+import com.xrbpowered.looppattern.ui.res.ButtonStyle;
+import com.xrbpowered.looppattern.ui.res.Fonts;
 import com.xrbpowered.zoomui.GraphAssist;
 import com.xrbpowered.zoomui.UIContainer;
 import com.xrbpowered.zoomui.base.UIButtonBase;

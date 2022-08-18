@@ -1,11 +1,10 @@
-package com.xrbpowered.looppattern.ui;
+package com.xrbpowered.looppattern.ui.menu;
 
-import com.xrbpowered.looppattern.LoopPattern;
-import com.xrbpowered.looppattern.game.Map;
+import com.xrbpowered.looppattern.ui.res.ButtonStyle;
 
 public class MainMenu extends MenuOverlay {
 
-	public static final String[] buttons = {"RESUME", "START NEW", "EXIT GAME"};
+	public static final String[] buttons = {"RESUME", "START NEW", "SAVE AND EXIT"};
 	public static final ButtonStyle[] buttonStyles = {ButtonStyle.button, ButtonStyle.button, ButtonStyle.redButton};
 	
 	public MainMenu() {
@@ -34,10 +33,7 @@ public class MainMenu extends MenuOverlay {
 				dismiss();
 				break;
 			case 1:
-				LoopPattern.map = new Map(LoopPattern.map.size).generate();
-				LoopPattern.updateUI();
-				LoopPattern.mapView.center();
-				dismiss();
+				new NewGameMenu();
 				break;
 			case 2:
 				getBase().getWindow().close();

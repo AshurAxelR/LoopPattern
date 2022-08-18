@@ -1,4 +1,4 @@
-package com.xrbpowered.looppattern.ui;
+package com.xrbpowered.looppattern.ui.res;
 
 import java.awt.Color;
 

@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import com.xrbpowered.looppattern.LoopPattern;
 import com.xrbpowered.looppattern.game.Tile;
+import com.xrbpowered.looppattern.ui.res.BoxStyle;
 import com.xrbpowered.zoomui.GraphAssist;
 import com.xrbpowered.zoomui.UIContainer;
 import com.xrbpowered.zoomui.UIElement;
@@ -65,6 +66,7 @@ public class MapView extends UIElement {
 	}
 
 	public void center() {
+		setSize(map.size*TileImage.size, map.size*TileImage.size);
 		UIPanView root = (UIPanView) getParent();
 		root.setPan(-root.getWidth()/2+getWidth()/2, -root.getHeight()/2+getHeight()/2);
 	}

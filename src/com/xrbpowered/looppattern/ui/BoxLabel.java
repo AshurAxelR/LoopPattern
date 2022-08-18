@@ -2,6 +2,8 @@ package com.xrbpowered.looppattern.ui;
 
 import java.awt.Font;
 
+import com.xrbpowered.looppattern.ui.res.BoxStyle;
+import com.xrbpowered.looppattern.ui.res.Fonts;
 import com.xrbpowered.zoomui.GraphAssist;
 import com.xrbpowered.zoomui.UIContainer;
 import com.xrbpowered.zoomui.UIElement;

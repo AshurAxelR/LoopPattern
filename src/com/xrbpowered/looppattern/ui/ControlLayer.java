@@ -10,6 +10,9 @@ import javax.swing.SwingUtilities;
 
 import com.xrbpowered.looppattern.LoopPattern;
 import com.xrbpowered.looppattern.game.Map;
+import com.xrbpowered.looppattern.ui.menu.MenuOverlay;
+import com.xrbpowered.looppattern.ui.res.BoxStyle;
+import com.xrbpowered.looppattern.ui.res.ButtonStyle;
 import com.xrbpowered.zoomui.UIContainer;
 
 public class ControlLayer extends UIContainer {
@@ -52,7 +55,7 @@ public class ControlLayer extends UIContainer {
 		completeButton = new ClickButton(this, "NEXT PATTERN") {
 			@Override
 			public void onAction() {
-				LoopPattern.map = new Map(32).generate();
+				map = new Map(map.difficulty).generate();
 				LoopPattern.updateUI();
 			}
 		};

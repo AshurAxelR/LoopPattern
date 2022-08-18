@@ -12,16 +12,18 @@ import java.util.Random;
 
 public class Map {
 
-	public int size;
-	public int total;
+	public final Difficulty difficulty;
+	public final int size;
+	public final int total;
 	
-	public Tile[][] map;
+	public final Tile[][] map;
 	public int connected;
 	
-	public Map(int size) {
-		this.size = size;
+	public Map(Difficulty diff) {
+		this.difficulty = diff;
+		this.size = diff.size;
 		this.total = size*size;
-		map = new Tile[size][size];
+		this.map = new Tile[size][size];
 	}
 	
 	public boolean isComplete() {
@@ -104,10 +106,11 @@ public class Map {
 	public static Map load(String path) {
 		try {
 			DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(new File(path)), 4100));
-			int size = in.readInt(); 
-			if(size>256)
+			int size = in.readInt();
+			Difficulty diff = Difficulty.forSize(size);
+			if(diff==null)
 				throw new IOException();
-			Map map = new Map(size);
+			Map map = new Map(diff);
 			for(int i=0; i<size; i++)
 				for(int j=0; j<size; j++) {
 					map.map[i][j] = new Tile(in.readByte()&15);
@@ -118,7 +121,7 @@ public class Map {
 			return map;
 		}
 		catch (IOException e) {
-			return new Map(32).generate();
+			return new Map(Difficulty.beginner).generate();
 		}
 	}
 	

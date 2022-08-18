@@ -3,12 +3,12 @@ package com.xrbpowered.looppattern;
 import java.awt.event.KeyEvent;
 
 import com.xrbpowered.looppattern.game.Map;
-import com.xrbpowered.looppattern.ui.ButtonStyle;
 import com.xrbpowered.looppattern.ui.ControlLayer;
-import com.xrbpowered.looppattern.ui.Fonts;
-import com.xrbpowered.looppattern.ui.MainMenu;
 import com.xrbpowered.looppattern.ui.MapView;
-import com.xrbpowered.looppattern.ui.MenuOverlay;
+import com.xrbpowered.looppattern.ui.menu.MainMenu;
+import com.xrbpowered.looppattern.ui.menu.MenuOverlay;
+import com.xrbpowered.looppattern.ui.res.ButtonStyle;
+import com.xrbpowered.looppattern.ui.res.Fonts;
 import com.xrbpowered.zoomui.KeyInputHandler;
 import com.xrbpowered.zoomui.UIContainer;
 import com.xrbpowered.zoomui.base.UILayersContainer;
@@ -42,6 +42,10 @@ public class LoopPattern extends UILayersContainer implements KeyInputHandler {
 				if(menu!=null)
 					menu.dismiss();
 				else
+					getBase().getWindow().requestClosing();
+				break;
+			case KeyEvent.VK_F4:
+				if(mods==modAltMask && menu==null)
 					getBase().getWindow().requestClosing();
 				break;
 			case KeyEvent.VK_HOME:

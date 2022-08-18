@@ -1,6 +1,10 @@
-package com.xrbpowered.looppattern.ui;
+package com.xrbpowered.looppattern.ui.menu;
 
 import com.xrbpowered.looppattern.LoopPattern;
+import com.xrbpowered.looppattern.ui.ClickButton;
+import com.xrbpowered.looppattern.ui.res.BoxStyle;
+import com.xrbpowered.looppattern.ui.res.ButtonStyle;
+import com.xrbpowered.looppattern.ui.res.Fonts;
 import com.xrbpowered.zoomui.GraphAssist;
 import com.xrbpowered.zoomui.UIContainer;
 
@@ -110,6 +114,11 @@ public abstract class MenuOverlay extends UIContainer {
 	@Override
 	public boolean onMouseDown(float x, float y, Button button, int mods) {
 		return true;
+	}
+	
+	public static void dismissAll() {
+		while(LoopPattern.menu!=null)
+			LoopPattern.menu.dismiss();
 	}
 
 }
