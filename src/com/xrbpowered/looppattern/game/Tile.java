@@ -39,5 +39,17 @@ public class Tile {
 	public void ccw() {
 		rotate(3);
 	}
+	
+	public static int mirrorX(int m) {
+		return (m&5) |((m&8)>>2) | ((m&2)<<2);
+	}
+
+	public static int mirrorY(int m) {
+		return (m&10) |((m&4)>>2) | ((m&1)<<2);
+	}
+
+	public static int mirrorXY(int m) {
+		return ((m&12)>>2) | ((m&3)<<2);
+	}
 
 }

@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Random;
 
 public class Map {
 
@@ -55,33 +54,10 @@ public class Map {
 		return count;
 	}
 	
-	public void addEdge(int i, int j, Dir d) {
-		map[i][j].addEdge(d);
-		map[i+d.dx][j+d.dy].addEdge(d.flip());
-	}
-	
 	public Map generate() {
-		Random random = new Random();
-		for(int i=0; i<size; i++)
-			for(int j=0; j<size; j++) {
-				map[i][j] = new Tile(0);
-				if(i>0) {
-					int degree = map[i-1][j].degree();
-					if(random.nextInt(100)<85-degree*15)
-						addEdge(i, j, Dir.west);
-				}
-				if(j>0) {
-					int degree = map[i][j-1].degree();
-					if(random.nextInt(100)<75-degree*15)
-						addEdge(i, j, Dir.north);
-				}
-			}
-		
-		for(int i=0; i<size; i++)
-			for(int j=0; j<size; j++) {
-				map[i][j].rotate(random.nextInt(4));
-			}
-		
+		Generator gen = new Generator(this);
+		gen.generate();
+		gen.scramble();
 		countConnected();
 		System.out.println("Generated new level.");
 		return this;
