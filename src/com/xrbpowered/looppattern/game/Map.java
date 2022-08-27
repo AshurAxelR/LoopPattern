@@ -11,16 +11,16 @@ import java.io.IOException;
 
 public class Map {
 
-	public final Difficulty difficulty;
+	public final GameSettings settings;
 	public final int size;
 	public final int total;
 	
 	public final Tile[][] map;
 	public int connected;
 	
-	public Map(Difficulty diff) {
-		this.difficulty = diff;
-		this.size = diff.size;
+	public Map(GameSettings settings) {
+		this.settings = settings;
+		this.size = settings.difficulty.size;
 		this.total = size*size;
 		this.map = new Tile[size][size];
 	}
@@ -56,7 +56,7 @@ public class Map {
 	
 	public Map generate() {
 		Generator gen = new Generator(this);
-		gen.generate();
+		gen.generate(settings.symmetry);
 		gen.scramble();
 		countConnected();
 		System.out.println("Generated new level.");
@@ -66,7 +66,7 @@ public class Map {
 	public void save(String path) {
 		try {
 			DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(new File(path)), 4100));
-			out.writeInt(size);
+			settings.save(out);
 			for(int i=0; i<size; i++)
 				for(int j=0; j<size; j++) {
 					out.writeByte(map[i][j].mask);
@@ -82,13 +82,10 @@ public class Map {
 	public static Map load(String path) {
 		try {
 			DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(new File(path)), 4100));
-			int size = in.readInt();
-			Difficulty diff = Difficulty.forSize(size);
-			if(diff==null)
-				throw new IOException();
-			Map map = new Map(diff);
-			for(int i=0; i<size; i++)
-				for(int j=0; j<size; j++) {
+			GameSettings settings = GameSettings.load(in);
+			Map map = new Map(settings);
+			for(int i=0; i<map.size; i++)
+				for(int j=0; j<map.size; j++) {
 					map.map[i][j] = new Tile(in.readByte()&15);
 				}
 			in.close();
@@ -97,7 +94,7 @@ public class Map {
 			return map;
 		}
 		catch (IOException e) {
-			return new Map(Difficulty.beginner).generate();
+			return new Map(GameSettings.defaultSettings).generate();
 		}
 	}
 	

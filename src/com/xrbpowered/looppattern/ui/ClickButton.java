@@ -22,10 +22,13 @@ public class ClickButton extends UIButtonBase {
 		this(parent, label, ButtonStyle.button);
 	}
 
+	public String getLabel() {
+		return label;
+	}
 
 	@Override
 	public void paint(GraphAssist g) {
-		BoxLabel.paintBoxLabel(g, this, paddingX, label, Fonts.font, style.get(hover));
+		BoxLabel.paintBoxLabel(g, this, paddingX, getLabel(), Fonts.font, style.get(hover));
 	}
 
 

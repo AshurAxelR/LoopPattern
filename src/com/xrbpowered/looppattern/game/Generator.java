@@ -185,7 +185,7 @@ public class Generator {
 	}
 	
 	private void generateBlock(int x0, int y0, int s, boolean top) {
-		if(s<=minBlock)
+		if(!top && s<=minBlock)
 			generateBase(x0, y0, s);
 		else if(!top && random.nextBoolean()) {
 			int hs = s/2;
@@ -213,8 +213,7 @@ public class Generator {
 		else {
 			int hs = s/2;
 			generatePairV(x0, y0, hs);
-			int mirror = random.nextInt(3);
-			if(top) mirror = 2;
+			int mirror = top ? 2+random.nextInt(1) : random.nextInt(3);
 			switch(mirror) {
 				case 1:
 					copy(x0, y0, x0+hs, y0, hs, s);
@@ -240,9 +239,12 @@ public class Generator {
 		generateBlock(x0, y0, s, false);
 	}
 	
-	public void generate() {
+	public void generate(boolean symmetry) {
 		clear();
-		generateBlock(0, 0, size, true);
+		if(symmetry)
+			generateBlock(0, 0, size, true);
+		else
+			generateBase(0, 0, size);
 	}
 
 }

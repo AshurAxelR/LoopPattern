@@ -55,7 +55,7 @@ public class ControlLayer extends UIContainer {
 		completeButton = new ClickButton(this, "NEXT PATTERN") {
 			@Override
 			public void onAction() {
-				map = new Map(map.difficulty).generate();
+				map = new Map(map.settings).generate();
 				LoopPattern.updateUI();
 			}
 		};

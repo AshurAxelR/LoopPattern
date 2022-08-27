@@ -63,7 +63,11 @@ public abstract class MenuOverlay extends UIContainer {
 	}
 	
 	public ClickButton createButton(final int index, float top) {
-		ClickButton button = new ClickButton(box, buttonLabel(index), buttonStyle(index)) {
+		ClickButton button = new ClickButton(box, null, buttonStyle(index)) {
+			@Override
+			public String getLabel() {
+				return buttonLabel(index);
+			}
 			@Override
 			public void onAction() {
 				MenuOverlay.this.onAction(index);

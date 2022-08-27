@@ -16,6 +16,10 @@ public enum Difficulty {
 		this.size = size;
 	}
 	
+	public Difficulty next() {
+		return values()[(ordinal()+1)%values().length];
+	}
+	
 	public static Difficulty forSize(int size) {
 		for(Difficulty diff : values()) {
 			if(diff.size==size)
